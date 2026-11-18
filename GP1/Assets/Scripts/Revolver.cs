@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Revolver : IWeapon
+public class Revolver : MonoBehaviour, IWeapon
 {
     private enum WeaponState
     {
@@ -10,32 +10,37 @@ public class Revolver : IWeapon
 
     private readonly int _maxAmmo = 6;
     private int _currentAmmo;
-
     private float _timeToReloadBullet = 1.0f;
     private float _elapsedTimeReloading = 0.0f;
-
     private WeaponState _weaponState = WeaponState.ReadyToFire;
+    string IWeapon.Name => "Revolver";
 
-    public string Name
+    public IDamageable currentDamageable;
+    Vector3? hitPos = null;
+
+    public void FireWeapon()
     {
-        get => "Revolver";
+        // If gun is reloading or ammo is 0
+        if (_weaponState == WeaponState.Reloading || _currentAmmo == 0)
+            return;
+
+        if (Physics.Raycast(Camera.main.transform.position,
+            Camera.main.transform.forward,
+            out RaycastHit hit))
+        {
+            currentDamageable = hit.transform.gameObject.GetComponent<IDamageable>();
+            hitPos = hit.point;
+
+            currentDamageable.TakeDamage(10);
+            Debug.Log("Hit");
+        }
     }
 
-    string IWeapon.Name => throw new System.NotImplementedException();
-
-    void IWeapon.FireWeapon()
-    {
-        // implement raycasting 
-    }
-
-    void IWeapon.Reload()
+    public void Reload()
     {
         if (_currentAmmo != _maxAmmo)
             _weaponState = WeaponState.Reloading;
     }
-
-
-
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -51,6 +56,7 @@ public class Revolver : IWeapon
         switch (_weaponState)
         {
             case WeaponState.ReadyToFire:
+                FireWeapon();
                 break;
             case WeaponState.Reloading:
                 _elapsedTimeReloading += Time.deltaTime;
