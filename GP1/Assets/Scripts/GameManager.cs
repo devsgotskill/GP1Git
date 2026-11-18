@@ -1,16 +1,21 @@
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : StateMachine
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public static GameManager Instance;
+
+    private void Awake()
     {
-        
+        Instance = this;
     }
 
-    // Update is called once per frame
+    void Start()
+    {
+        SwitchState<PlayingState>();
+    }
+
     void Update()
     {
-        
+        UpdateStateMachine();
     }
 }

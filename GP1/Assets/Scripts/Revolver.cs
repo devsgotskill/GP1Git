@@ -31,8 +31,7 @@ public class Revolver : MonoBehaviour, IWeapon
             currentDamageable = hit.transform.gameObject.GetComponent<IDamageable>();
             hitPos = hit.point;
 
-            currentDamageable.TakeDamage(10);
-            Debug.Log("Hit");
+            currentDamageable?.TakeDamage(10);
         }
     }
 
