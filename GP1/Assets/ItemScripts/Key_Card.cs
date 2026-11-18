@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Key_Card : MonoBehaviour
+public class KeyCard : MonoBehaviour
 {
     public bool keycard_acquired;
 
@@ -11,7 +11,7 @@ public class Key_Card : MonoBehaviour
         if (other.gameObject.layer ==  6)
         {
             keycard_acquired = true;
-            Destroy(keycard_object);
+            gameObject.SetActive(false);
         }
     }
 
