@@ -1,14 +1,17 @@
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UIElements;
 
 // Script created by: Damian Zuniga
 public class EnemyBase : MonoBehaviour
 {
-    [SerializeField] private float movement_speed;
+    [SerializeField] protected NavMeshAgent agent_reference;
+    [SerializeField] protected float movement_speed;
     [SerializeField] private int max_health;
     [SerializeField] private int current_health;
     [SerializeField] private int attack_damage;
+    [SerializeField] private float inflict_fear;
     private Vector3 direction;
 
     private void Awake()
