@@ -1262,9 +1262,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FearManager
   _fearLevel: 1
-  _fearAccuracyModifier: 50
+  _fearAccuracyModifier: 25
   _crosshair: {fileID: 238636755}
-  _offsetDirectionCooldown: 1
+  _offsetDirectionCooldown: 0.25
   _timeSinceOffsetDirectionSwitch: 0
 --- !u!4 &1519815347
 Transform:
