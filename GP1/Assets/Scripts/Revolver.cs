@@ -65,7 +65,7 @@ public class Revolver : MonoBehaviour, IWeapon
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // this needs to be set as initialize potentially, or just set this in the variables above.wwwwwwww
+        // this needs to be set as initialize potentially, or just set this in the variables above.
         _currentAmmo = _maxAmmo;
     }
 
