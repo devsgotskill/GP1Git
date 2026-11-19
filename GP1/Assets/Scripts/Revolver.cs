@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Revolver : MonoBehaviour, IWeapon
 {
@@ -18,6 +19,22 @@ public class Revolver : MonoBehaviour, IWeapon
     public IDamageable currentDamageable;
     Vector3? hitPos = null;
 
+    private PlayerInputActions _inputActions;
+
+    private void Awake()
+    {
+        _inputActions = new PlayerInputActions();
+    }
+
+    private void OnEnable()
+    {
+        _inputActions.Player.Enable();
+    }
+    private void OnDisable()
+    {
+        _inputActions.Player.Disable();
+    }
+
     public void FireWeapon()
     {
         // If gun is reloading or ammo is 0
@@ -32,6 +49,10 @@ public class Revolver : MonoBehaviour, IWeapon
             hitPos = hit.point;
 
             currentDamageable?.TakeDamage(10);
+
+            Debug.Log("Inside fire weapon");
+
+            _currentAmmo--;
         }
     }
 
@@ -44,18 +65,27 @@ public class Revolver : MonoBehaviour, IWeapon
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // this needs to be set as initialize potentially, or just set this in the variables above.
-
+        // this needs to be set as initialize potentially, or just set this in the variables above.wwwwwwww
         _currentAmmo = _maxAmmo;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (_inputActions.Player.Reload.WasPressedThisFrame())
+        {
+            _weaponState = WeaponState.Reloading;
+            Debug.Log("Reload weapon changed");
+        }
+
         switch (_weaponState)
         {
             case WeaponState.ReadyToFire:
-                FireWeapon();
+                if (_inputActions.Player.Shoot.WasPressedThisFrame())
+                {
+                    Debug.Log("Fire weapon called");
+                    FireWeapon();
+                }
                 break;
             case WeaponState.Reloading:
                 _elapsedTimeReloading += Time.deltaTime;
