@@ -57,19 +57,9 @@
                     "priority": 0
                 },
                 {
-                    "name": "Shoot",
+                    "name": "Interact",
                     "type": "Button",
-                    "id": "32b8eeae-c21f-4129-8a41-9a7e26ae6822",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false,
-                    "priority": 0
-                },
-                {
-                    "name": "Reload",
-                    "type": "Button",
-                    "id": "1007c3b8-2bfc-428e-b4e9-22b8733ff01c",
+                    "id": "0ea9d08d-9b0b-4515-bf8c-c5fdc068f744",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -179,23 +169,12 @@
                 },
                 {
                     "name": "",
-                    "id": "75bf9c9e-c284-40c9-a1c8-8dbe2130b93c",
-                    "path": "<Mouse>/press",
+                    "id": "1c77ba17-bc7b-4039-9339-2cfde3ee7e7f",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Shoot",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "236070cd-871b-4293-8903-0903c3d664a3",
-                    "path": "<Keyboard>/r",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Reload",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
