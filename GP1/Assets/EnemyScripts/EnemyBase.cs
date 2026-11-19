@@ -4,7 +4,7 @@ using UnityEngine.AI;
 using UnityEngine.UIElements;
 
 // Script created by: Damian Zuniga
-public class EnemyBase : MonoBehaviour
+public class EnemyBase : MonoBehaviour, IDamageable
 {
     [SerializeField] protected NavMeshAgent agent_reference;
     [SerializeField] protected float movement_speed;
@@ -19,8 +19,8 @@ public class EnemyBase : MonoBehaviour
         current_health = max_health;
     }
 
-    public virtual void TakeDamage(int damage_value)
+    public void TakeDamage(int damage)
     {
-        current_health -= damage_value;
+        current_health -= damage;
     }
 }
