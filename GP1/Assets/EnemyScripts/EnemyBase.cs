@@ -22,5 +22,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
     public void TakeDamage(int damage)
     {
         current_health -= damage;
+        // Pierre: test line added just to make sure enemy is hit by raycast from weapon
+        Debug.Log("Enemy damaged");
     }
 }

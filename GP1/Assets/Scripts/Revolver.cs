@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class Revolver : MonoBehaviour, IWeapon
 {
@@ -41,16 +42,19 @@ public class Revolver : MonoBehaviour, IWeapon
         if (_weaponState == WeaponState.Reloading || _currentAmmo == 0)
             return;
 
-        if (Physics.Raycast(Camera.main.transform.position,
-            Camera.main.transform.forward,
+        RectTransform crosshairRect = FearManager.Instance.GetCrosshair().GetComponent<RectTransform>();
+
+        Vector2 screenPosition = RectTransformUtility.WorldToScreenPoint(null, crosshairRect.position);
+
+        Ray ray = Camera.main.ScreenPointToRay(screenPosition);
+
+        if (Physics.Raycast(ray,
             out RaycastHit hit))
         {
             currentDamageable = hit.transform.gameObject.GetComponent<IDamageable>();
             hitPos = hit.point;
 
             currentDamageable?.TakeDamage(10);
-
-            Debug.Log("Inside fire weapon");
 
             _currentAmmo--;
         }
@@ -69,6 +73,8 @@ public class Revolver : MonoBehaviour, IWeapon
         _currentAmmo = _maxAmmo;
     }
 
+
+
     // Update is called once per frame
     void Update()
     {
@@ -83,7 +89,6 @@ public class Revolver : MonoBehaviour, IWeapon
             case WeaponState.ReadyToFire:
                 if (_inputActions.Player.Shoot.WasPressedThisFrame())
                 {
-                    Debug.Log("Fire weapon called");
                     FireWeapon();
                 }
                 break;
@@ -97,7 +102,6 @@ public class Revolver : MonoBehaviour, IWeapon
                 else if (_currentAmmo == 6)
                     _weaponState = WeaponState.ReadyToFire;
                 break;
-
         }
     }
 }
