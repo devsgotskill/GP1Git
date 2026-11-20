@@ -296,6 +296,8 @@ MonoBehaviour:
   crouchSmoothness: 15
   coyoteTime: 0.2
   jumpBufferTime: 0.15
+  acceleration: 9
+  deceleration: 14
 --- !u!136 &784593694
 CapsuleCollider:
   m_ObjectHideFlags: 0

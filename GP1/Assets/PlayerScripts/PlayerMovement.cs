@@ -5,22 +5,26 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] private float walkSpeed = 5f;
-    [SerializeField] private float sprintSpeed = 8f;
-    [SerializeField] private float crouchSpeed = 2.5f;
-    [SerializeField] private float gravity = -9.81f;
-    [SerializeField] private float jumpHeight = 1.5f;
+    [SerializeField] private float walkSpeed = 2f;
+    [SerializeField] private float sprintSpeed = 5f;
+    [SerializeField] private float crouchSpeed = 1.4f;
+    [SerializeField] private float gravity = -15f;
+    [SerializeField] private float jumpHeight = 1.4f;
 
     [Header("Crouching Settings")]
     [SerializeField] private float crouchHeight = 1f;
     [SerializeField] private Transform cameraTransform;
-    [SerializeField] private float crouchCameraOffset = 0.5f;
-    [SerializeField] private float crouchSmoothness = 8f;
+    [SerializeField] private float crouchCameraOffset = 1.5f;
+    [SerializeField] private float crouchSmoothness = 15f;
 
     [Header("Advanced Jump Juice")]
     [SerializeField] private float coyoteTime = 0.2f;
     [SerializeField] private float jumpBufferTime = 0.15f;
 
+    [Header("Movement Acceleration")]
+    [SerializeField] private float acceleration = 9f;
+    [SerializeField] private float deceleration = 14f;
+    private Vector3 currentMoveVelocity;
     private CharacterController controller;
     private PlayerInputActions inputActions;
 
@@ -76,6 +80,7 @@ public class PlayerMovement : MonoBehaviour
                 controller.center = standingCenter;
             }
         }
+
         if (cameraTransform != null)
         {
             Vector3 targetCameraPosition = cameraDefaultPosition;
@@ -100,8 +105,21 @@ public class PlayerMovement : MonoBehaviour
             currentSpeed = walkSpeed;
         }
         Vector2 moveInput = inputActions.Player.Move.ReadValue<Vector2>();
+
         Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.y;
-        controller.Move(move * currentSpeed * Time.deltaTime);
+        move = Vector3.ClampMagnitude(move, 1f);
+        Vector3 targetVelocity = move * currentSpeed;
+        float currentAcceleration;
+        if (moveInput.magnitude > 0.1f)
+        {
+            currentAcceleration = acceleration;
+        }
+        else
+        {
+            currentAcceleration = deceleration;
+        }
+        currentMoveVelocity = Vector3.MoveTowards(currentMoveVelocity, targetVelocity, currentAcceleration * Time.deltaTime);
+        controller.Move(currentMoveVelocity * Time.deltaTime);
         if (isGrounded)
         {
             coyoteTimeCounter = coyoteTime;
