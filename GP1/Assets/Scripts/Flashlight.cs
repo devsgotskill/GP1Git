@@ -36,7 +36,9 @@ public class Flashlight : MonoBehaviour
 
     void Start()
     {
+        _currentBatteryLife = _maxBatteryLife;
         _lightSourceActive = FlashlightActive.Off;
+        _lightSource.enabled = false;
     }
 
     void Update()
