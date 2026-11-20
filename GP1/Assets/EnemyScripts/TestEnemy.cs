@@ -5,6 +5,8 @@ using UnityEngine.AI;
 public class TestEnemy : EnemyBase
 {
     [SerializeField] private Transform player_transform_reference;
+    [SerializeField] private BoxCollider player_detector;
+    
     private enum enemy_states
     {
         idle_state = 0,
@@ -13,7 +15,7 @@ public class TestEnemy : EnemyBase
         hurt_state = 3,
     }
 
-    private enemy_states current_state = enemy_states.chase_state;
+    private enemy_states current_state = enemy_states.idle_state;
 
     private void Update()
     {
@@ -39,5 +41,4 @@ public class TestEnemy : EnemyBase
                 break;
         }
     }
-
 }
