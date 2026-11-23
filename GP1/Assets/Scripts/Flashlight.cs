@@ -5,6 +5,7 @@ public class Flashlight : MonoBehaviour
 {
     [SerializeField] private float _currentBatteryLife = 1.0f;
     [SerializeField] private float _maxBatteryLife = 1.0f;
+    [SerializeField] private float _batteryPickupAmount = 0.5f;
     [SerializeField] private float _batteryDrainSpeed = 1.0f;
     [SerializeField] private float _fearReductionSpeedMultiplier = 25.0f;
     [SerializeField] private float _fearIncreaseSpeedMultiplier = 25.0f;
@@ -39,6 +40,13 @@ public class Flashlight : MonoBehaviour
         _currentBatteryLife = _maxBatteryLife;
         _lightSourceActive = FlashlightActive.Off;
         _lightSource.enabled = false;
+    }
+
+    public void AddBattery()
+    {
+        _currentBatteryLife += _batteryPickupAmount;
+        if (_currentBatteryLife > _maxBatteryLife)
+            _currentBatteryLife = _maxBatteryLife;
     }
 
     public void UpdateFlashlight()

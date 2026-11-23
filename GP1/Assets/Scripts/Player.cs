@@ -5,7 +5,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private int _health;
     [SerializeField] private int _maxHealth;
-    [SerializeField] private int _revolverAmmo;
+    [SerializeField] private int _revolverExtraAmmo;
     [SerializeField] private int _maxRevolverAmmo;
 
     [SerializeField] private Revolver _revolver;
@@ -52,16 +52,25 @@ public class Player : MonoBehaviour
         _flashlight.UpdateFlashlight();
     }
 
+    public void AddBattery()
+    {
+        _flashlight.AddBattery();
+    }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void AddAmmo()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void AddHealth(int healthAmount = 50)
     {
-        
+        _health += healthAmount;
+        if (_health > _maxHealth)
+            _health = _maxHealth;
+    }
+
+    public string CurrentAmmunition()
+    {
+        return _revolver.Ammo();
     }
 }

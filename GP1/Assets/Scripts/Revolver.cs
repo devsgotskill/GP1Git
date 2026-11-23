@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.VirtualTexturing;
 using UnityEngine.UIElements;
 
 public class Revolver : MonoBehaviour, IWeapon
@@ -7,13 +8,17 @@ public class Revolver : MonoBehaviour, IWeapon
     private enum WeaponState
     {
         ReadyToFire,
+        ShotCooldown,
         Reloading,
     }
 
+    [SerializeField] private int _extraAmmo, _maxExtraAmmo;
     private readonly int _maxAmmo = 6;
     private int _currentAmmo;
-    private float _timeToReloadBullet = 1.0f;
+    [SerializeField] private float _timeToReloadBullet = 1.0f;
+    [SerializeField] private float _shotCooldownLength = 1.2f;
     private float _elapsedTimeReloading = 0.0f;
+    private float _elapsedTimeCoolingDownShot = 0.0f;
     private WeaponState _weaponState = WeaponState.ReadyToFire;
     string IWeapon.Name => "Revolver";
 
@@ -39,7 +44,7 @@ public class Revolver : MonoBehaviour, IWeapon
     public void FireWeapon()
     {
         // If gun is reloading or ammo is 0
-        if (_weaponState == WeaponState.Reloading || _currentAmmo == 0)
+        if (!(_weaponState == WeaponState.ReadyToFire) || _currentAmmo == 0)
             return;
 
         FearManager.Instance.TriggerRecoil();
@@ -60,12 +65,21 @@ public class Revolver : MonoBehaviour, IWeapon
 
             _currentAmmo--;
         }
+
+        _weaponState = WeaponState.ShotCooldown;
     }
 
     public void Reload()
     {
         if (_currentAmmo != _maxAmmo)
             _weaponState = WeaponState.Reloading;
+    }
+
+    public void AddAmmo(int amount = 6)
+    {
+        _extraAmmo += amount;
+        if (_extraAmmo > _maxExtraAmmo)
+            _extraAmmo = _maxExtraAmmo;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -77,21 +91,37 @@ public class Revolver : MonoBehaviour, IWeapon
 
     public void UpdateRevolver()
     {
-        switch (_weaponState)
+        if (_weaponState == WeaponState.Reloading)
         {
-            case WeaponState.ReadyToFire:
-
-                break;
-            case WeaponState.Reloading:
-                _elapsedTimeReloading += Time.deltaTime;
-                if (_elapsedTimeReloading > _timeToReloadBullet && _currentAmmo < 6)
-                {
-                    _elapsedTimeReloading -= _timeToReloadBullet;
-                    _currentAmmo++;
-                }
-                else if (_currentAmmo == 6)
-                    _weaponState = WeaponState.ReadyToFire;
-                break;
+            if (_extraAmmo == 0)
+            {
+                _weaponState = WeaponState.ReadyToFire;
+                return;
+            }
+            _elapsedTimeReloading += Time.deltaTime;
+            if (_elapsedTimeReloading > _timeToReloadBullet && _currentAmmo < 6)
+            {
+                _elapsedTimeReloading -= _timeToReloadBullet;
+                _currentAmmo++;
+                _extraAmmo--;
+            }
+            else if (_currentAmmo == 6)
+                _weaponState = WeaponState.ReadyToFire;
         }
+        else if (_weaponState == WeaponState.ShotCooldown)
+        {
+            _elapsedTimeCoolingDownShot += Time.deltaTime;
+            if (_elapsedTimeCoolingDownShot > _shotCooldownLength)
+            {
+                _weaponState = WeaponState.ReadyToFire;
+                _elapsedTimeCoolingDownShot = 0.0f;
+            }
+
+        }
+    }
+
+    public string Ammo()
+    {
+        return _currentAmmo + " / " + _extraAmmo;
     }
 }
