@@ -12,9 +12,11 @@ public class Look : MonoBehaviour
     [Header("Head Bob Settings")]
     [SerializeField] private bool enableHeadBob = true;
 
-    [Header("Idle Breathing")]
+    [Header("Breathing")]
     [SerializeField] private float breathAmplitude;
     [SerializeField] private float breathFrequency;
+    [SerializeField] private float maxBreathAmplitude = 0.07f;
+    [SerializeField] private float maxBreathFrequency = 22f;
 
     [Header("Walking Bob")]
     [SerializeField] private float walkAmplitude;
@@ -54,16 +56,20 @@ public class Look : MonoBehaviour
         Vector2 lookInput = inputActions.Player.Look.ReadValue<Vector2>();
         float mouseX = lookInput.x * mouseSensitivity * Time.deltaTime;
         float mouseY = lookInput.y * mouseSensitivity * Time.deltaTime;
+
         cameraPitch -= mouseY;
         cameraPitch = Mathf.Clamp(cameraPitch, bottomClamp, topClamp);
         transform.Rotate(Vector3.up * mouseX);
         Vector2 moveInput = inputActions.Player.Move.ReadValue<Vector2>();
         float targetTiltZ = -moveInput.x * horizontalTilt;
+
         float targetTiltX = moveInput.y * verticalTilt;
         currentTiltZ = Mathf.Lerp(currentTiltZ, targetTiltZ, Time.deltaTime * tiltSmoothness);
         currentTiltX = Mathf.Lerp(currentTiltX, targetTiltX, Time.deltaTime * tiltSmoothness);
+
         Quaternion tiltRotation = Quaternion.Euler(currentTiltX, 0f, currentTiltZ);
         cameraTransform.localRotation = Quaternion.Euler(cameraPitch, 0f, 0f) * tiltRotation;
+
         if (enableHeadBob && cameraTransform != null)
         {
             bool isMoving = moveInput.magnitude > 0.1f;
@@ -71,7 +77,12 @@ public class Look : MonoBehaviour
             Vector3 targetPos = cameraDefaultLocalPos;
             if (!isMoving)
             {
-                float breathOffset = Mathf.Sin(Time.time * breathFrequency) * breathAmplitude;
+                float fear = FearManager.Instance.GetFearAmount();
+
+                float currentAmplitude = Mathf.Lerp(0.05f, maxBreathAmplitude, fear);
+                float currentFrequency = Mathf.Lerp(1.5f, maxBreathFrequency, fear);
+
+                float breathOffset = Mathf.Sin(Time.time * currentFrequency) * currentAmplitude;
 
                 targetPos += new Vector3(0f, breathOffset, 0f);
             }
@@ -90,11 +101,7 @@ public class Look : MonoBehaviour
                     targetPos += new Vector3(shakeX, shakeY, 0f);
                 }
             }
-            cameraTransform.localPosition = Vector3.Lerp(
-                cameraTransform.localPosition,
-                targetPos,
-                Time.deltaTime * 12f
-            );
+            cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, targetPos, Time.deltaTime * 12f);
         }
     }
 }
