@@ -9,28 +9,43 @@ public class FearManager : MonoBehaviour
         Instance = this;
     }
 
-    [SerializeField] private float _fearLevel = 0.5f;
-
-    [SerializeField] private float _fearAccuracyModifier = 2.0f;
-
     [SerializeField] private GameObject _crosshair;
 
-    private Vector3 _accuracyOffset;
-    private float _randomOffsetFloat;
+    [Header("Fear variables")] 
+    [SerializeField] private float _fearLevel = 0.5f;
+    [SerializeField] private float _fearAccuracyModifier = 2.0f;
 
+
+    [Header("Recoil variables")]
+    [SerializeField] private float _recoilUpTime, _recoilDownTime;
+    private float _recoilTime;
+    private Vector3 _recoilOffset, _currentRecoilOffset, _zeroRecoilOffset;
+    private bool _recoilUp;
+    private bool _recoiling;
+
+
+    [Header("Fear crosshair offset variables")]
+    [SerializeField] private float _randomOffsetFloat;
     [SerializeField] private float _offsetDirectionCooldown = 0.25f;
-    [SerializeField] private float _timeSinceOffsetDirectionSwitch = 0.0f;
+    private float _timeSinceOffsetDirectionSwitch = 0.0f;
+    private Vector3 _accuracyOffset;
     private Vector3 _center;
-
     private Vector3 _next, _prev;
 
-    
+
 
     public void Start()
     {
         _center = _crosshair.transform.position;
         _prev = _crosshair.transform.position;
         _next = _crosshair.transform.position;
+
+        _recoilOffset = new Vector3(0, 0, 0);
+        _currentRecoilOffset = new Vector3(0, 0, 0);
+        _zeroRecoilOffset = new Vector3(0, 0, 0);
+
+        _recoiling = false;
+        _recoilUp = true;
     }
 
     public void Update()
@@ -55,11 +70,60 @@ public class FearManager : MonoBehaviour
         UpdateCrosshairPosition();
     }
 
+    public void TriggerRecoil()
+    {
+        _recoiling = true;
+        _recoilOffset = new Vector3(0, 100, 0);
+        _recoilUp = true;
+    }
+
+    private void HandleRecoil()
+    {
+        //recoil code
+
+
+        if (_recoiling && _recoilUp)
+        {
+
+            _recoilTime += Time.deltaTime;
+            _currentRecoilOffset = new Vector3(Mathf.Lerp(_zeroRecoilOffset.x, _recoilOffset.x, _recoilTime / _recoilUpTime),
+                                               Mathf.Lerp(_zeroRecoilOffset.y, _recoilOffset.y, _recoilTime / _recoilUpTime),
+                                               0);
+            if (_recoilTime > _recoilUpTime)
+            {
+                _recoilUp = false;
+
+                _recoilTime -= _recoilUpTime;
+            }
+
+        }
+        else if (_recoiling && !_recoilUp)
+        {
+
+            _recoilTime += Time.deltaTime;
+            _currentRecoilOffset = new Vector3(Mathf.Lerp(_recoilOffset.x, _zeroRecoilOffset.x, _recoilTime / _recoilDownTime),
+                                               Mathf.Lerp(_recoilOffset.y, _zeroRecoilOffset.y, _recoilTime / _recoilDownTime),
+                                               0);
+
+            if (_recoilTime > _recoilDownTime)
+            {
+                _recoilUp = true;
+                _recoiling = false;
+                _recoilTime = 0.0f;
+            }
+        }
+    }
+
     private void UpdateCrosshairPosition()
     {
+        HandleRecoil();
+
+        // handle fear sway
         _crosshair.transform.position = new Vector3(Mathf.Lerp(_prev.x, _next.x, _timeSinceOffsetDirectionSwitch / _offsetDirectionCooldown), 
                                                     Mathf.Lerp(_prev.y, _next.y, _timeSinceOffsetDirectionSwitch / _offsetDirectionCooldown), 
                                                     0);
+
+        _crosshair.transform.position += new Vector3(_currentRecoilOffset.x, _currentRecoilOffset.y, 0);
     }
 
     public GameObject GetCrosshair()

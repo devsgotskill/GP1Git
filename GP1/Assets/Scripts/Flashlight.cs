@@ -41,25 +41,8 @@ public class Flashlight : MonoBehaviour
         _lightSource.enabled = false;
     }
 
-    void Update()
+    public void UpdateFlashlight()
     {
-        if (_inputActions.Player.Flashlight.WasPressedThisFrame())
-        {
-            if (_lightSourceActive == FlashlightActive.On)
-            {
-                _lightSourceActive = FlashlightActive.Off;
-                _lightSource.enabled = false;
-            }
-
-            else
-            {
-                _lightSourceActive = FlashlightActive.On;
-                _lightSource.enabled = true;
-            }
-
-        }
-
-
         if (_lightSource.isActiveAndEnabled)
         {
             if (_currentBatteryLife > 0.0f)
@@ -76,5 +59,20 @@ public class Flashlight : MonoBehaviour
         }
         else
             FearManager.Instance.IncreaseFearOverTime(_fearIncreaseSpeedMultiplier);
+    }
+
+    public void ToggleFlashlight()
+    {
+        if (_lightSourceActive == FlashlightActive.On)
+        {
+            _lightSourceActive = FlashlightActive.Off;
+            _lightSource.enabled = false;
+        }
+
+        else
+        {
+            _lightSourceActive = FlashlightActive.On;
+            _lightSource.enabled = true;
+        }
     }
 }

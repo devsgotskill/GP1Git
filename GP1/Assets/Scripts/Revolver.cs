@@ -42,6 +42,8 @@ public class Revolver : MonoBehaviour, IWeapon
         if (_weaponState == WeaponState.Reloading || _currentAmmo == 0)
             return;
 
+        FearManager.Instance.TriggerRecoil();
+
         RectTransform crosshairRect = FearManager.Instance.GetCrosshair().GetComponent<RectTransform>();
 
         Vector2 screenPosition = RectTransformUtility.WorldToScreenPoint(null, crosshairRect.position);
@@ -73,24 +75,12 @@ public class Revolver : MonoBehaviour, IWeapon
         _currentAmmo = _maxAmmo;
     }
 
-
-
-    // Update is called once per frame
-    void Update()
+    public void UpdateRevolver()
     {
-        if (_inputActions.Player.Reload.WasPressedThisFrame())
-        {
-            _weaponState = WeaponState.Reloading;
-            Debug.Log("Reload weapon changed");
-        }
-
         switch (_weaponState)
         {
             case WeaponState.ReadyToFire:
-                if (_inputActions.Player.Shoot.WasPressedThisFrame())
-                {
-                    FireWeapon();
-                }
+
                 break;
             case WeaponState.Reloading:
                 _elapsedTimeReloading += Time.deltaTime;
