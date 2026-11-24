@@ -466,7 +466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa4c9c22a34a1c746a9b682a30e9284b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayingState
-  _player: {fileID: 0}
+  _player: {fileID: 784593701}
 --- !u!4 &783189905
 Transform:
   m_ObjectHideFlags: 0
@@ -700,8 +700,8 @@ MonoBehaviour:
   horizontalTilt: 5
   verticalTilt: 3
   tiltSmoothness: 5
-  recoilCameraMultiplier: 0.02
-  recoilCameraSmoothness: 12
+  recoilCameraMultiplier: 0.4
+  recoilCameraSmoothness: 13
 --- !u!81 &784593700
 AudioListener:
   m_ObjectHideFlags: 0
