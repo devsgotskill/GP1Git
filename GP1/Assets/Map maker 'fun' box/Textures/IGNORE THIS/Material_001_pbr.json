@@ -1,0 +1,24 @@
+{
+  "material": "Material.001",
+  "generator": "Blender 5.3.0 / Mat-Baker",
+  "resolution": 1024,
+  "format": "PNG",
+  "bit_depth": 8,
+  "normal_convention": "OpenGL",
+  "maps": {
+    "basecolor": "Material_001_Albedo.png",
+    "normal": "Material_001_Normal.png",
+    "height": "Material_001_Height.png",
+    "ao": "Material_001_AO.png"
+  },
+  "packed": {
+    "type": "Unity Metallic-Smoothness",
+    "file": "Material_001_MetallicSmoothness.png",
+    "channels": "R:Metal  G:Metal  B:Metal  A:Smooth"
+  },
+  "height": {
+    "midlevel": 2.9802322387695312e-08,
+    "scale": 0.0010000000474974513
+  },
+  "ior": 1.5
+}
