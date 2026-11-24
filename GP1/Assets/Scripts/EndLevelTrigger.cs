@@ -16,9 +16,8 @@ public class EndLevelTrigger : Door
             MoveDoor(new_pos);   
         }
     }
-     
-    //PlayingState function
-    public void CountDownBeforeLevelSwitch()
+
+    private void OnTriggerStay(Collider other)
     {
         timer -= Time.deltaTime;
 
