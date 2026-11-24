@@ -719,6 +719,8 @@ MonoBehaviour:
   horizontalTilt: 5
   verticalTilt: 3
   tiltSmoothness: 5
+  recoilCameraMultiplier: 0.4
+  recoilCameraSmoothness: 13
 --- !u!114 &847161218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1615,8 +1617,8 @@ Light:
   serializedVersion: 12
   m_Type: 1
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 0.21
-  m_Range: 10
+  m_Intensity: 4.97
+  m_Range: 43.4
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -1756,7 +1758,12 @@ MonoBehaviour:
   attack_damage: 2
   inflict_fear: 0
   player_transform_reference: {fileID: 847161225}
-  player_detector: {fileID: 0}
+  player_detection_volume: {fileID: 0}
+  in_range_to_attack_volume: {fileID: 0}
+  hit_box: {fileID: 0}
+  chase_time: 3
+  attack_time: 1
+  current_state: 0
 --- !u!195 &1677154506
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2532,8 +2539,8 @@ SceneRoots:
   - {fileID: 278848891}
   - {fileID: 1512669999}
   - {fileID: 1615892913}
-  - {fileID: 847161225}
   - {fileID: 1310791889}
+  - {fileID: 847161225}
   - {fileID: 1519815347}
   - {fileID: 1818703991}
   - {fileID: 1318144028}
