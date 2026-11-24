@@ -164,4 +164,9 @@ public class FearManager : MonoBehaviour
     // Returns current fear amount
     public float GetFearAmount()
         { return _fearLevel; }
+    // Yo this is devs here, added this function to get the current recoil offset for the camera shake. 
+    public Vector3 GetCurrentRecoilOffset()
+    {
+        return _currentRecoilOffset;
+    }
 }
