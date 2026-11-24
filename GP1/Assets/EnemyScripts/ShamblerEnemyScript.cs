@@ -34,6 +34,12 @@ public class ShamblerEnemy : EnemyBase
             countdown_timer = hurt_time;
             current_state = enemy_states.hurt_state;
         }
+
+        if (in_range_to_attack_volume.is_detecting)
+        {
+            countdown_timer = attack_time;
+            current_state = enemy_states.attack_state;
+        }
     }
 
     public void ChaseBehavior()
