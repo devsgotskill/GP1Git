@@ -13,27 +13,15 @@ public class EndLevelTrigger : Door
 
         if (other.gameObject.layer == 6)
         {
-            CountDownBeforeLevelSwitch();
-            MoveDoor(new_pos);
-            
+            MoveDoor(new_pos);   
         }
     }
-    
-    //Might be needed for state machine
+     
+    //PlayingState function
     public void CountDownBeforeLevelSwitch()
     {
-        timer -= Time.deltaTime; 
-
-        if (timer <= 0) { SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); }
-    }
-
-    /*Debug*/  
-    private void Update()
-    {
-
         timer -= Time.deltaTime;
 
         if (timer <= 0) { SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); }
     }
-    
 }
