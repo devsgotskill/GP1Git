@@ -69,6 +69,14 @@ public class Player : MonoBehaviour
             _health = _maxHealth;
     }
 
+    public void RemoveHealth(int damage_taken)
+    {
+        _health -= damage_taken;
+        /*
+         * if (_health <= 0) { Scenemanger.LoadScene("Menu"); }
+         */
+    }
+
     public string CurrentAmmunition()
     {
         return _revolver.Ammo();
