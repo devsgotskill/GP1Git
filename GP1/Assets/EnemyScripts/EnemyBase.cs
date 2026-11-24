@@ -7,9 +7,9 @@ using UnityEngine.UIElements;
 public class EnemyBase : MonoBehaviour, IDamageable
 {
     [SerializeField] protected NavMeshAgent agent_reference;
+    [SerializeField] protected Transform player_transform_reference;
     [SerializeField] protected float movement_speed;
-    [SerializeField] private int max_health;
-    [SerializeField] private int current_health;
+    [SerializeField] private int health;
     [SerializeField] private int attack_damage;
     [SerializeField] private float inflict_fear;
 
@@ -21,29 +21,32 @@ public class EnemyBase : MonoBehaviour, IDamageable
         hurt_state = 3,
     }
 
-    private Vector3 direction;
-
-    private void Awake()
-    {
-        current_health = max_health;
-    }
+    protected enemy_states current_state = enemy_states.idle_state;
 
     public void TakeDamage(int damage)
     {
-        current_health -= damage;
+        health -= damage;
         // Pierre: test line added just to make sure enemy is hit by raycast from weapon
         Debug.Log("Enemy damaged");
     }
 
     public void OrientTowardsPlayer()
     {
-        Vector3 look_towards_player = (agent_reference.destination - transform.position).normalized;
+        Vector3 look_towards_player = (player_transform_reference.position - transform.position).normalized;
         look_towards_player.y = 0;
 
         if (look_towards_player.sqrMagnitude > .01f) // hotfix for "the look rotation viewing vector is 0"
         {
             Quaternion rotation = Quaternion.LookRotation(look_towards_player);
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 1);
+        }
+    }
+
+    public void CheckDeath()
+    {
+        if (health <= 0)
+        {
+            Destroy(gameObject);
         }
     }
 }
