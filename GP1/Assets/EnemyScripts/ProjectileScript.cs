@@ -29,7 +29,7 @@ public class ProjectileScript : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             // Insert logic here to administer damage
-            Destroy(gameObject);
         }
+        Destroy(gameObject);
     }
 }
