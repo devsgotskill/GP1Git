@@ -23,7 +23,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
     protected enemy_states current_state = enemy_states.idle_state;
 
-    public void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage)
     {
         health -= damage;
         // Pierre: test line added just to make sure enemy is hit by raycast from weapon

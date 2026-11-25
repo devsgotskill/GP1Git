@@ -17,6 +17,7 @@ public class Revolver : MonoBehaviour, IWeapon
     private int _currentAmmo;
     [SerializeField] private float _timeToReloadBullet = 1.0f;
     [SerializeField] private float _shotCooldownLength = 1.2f;
+    [SerializeField] private int _shotDamage = 10;
     private float _elapsedTimeReloading = 0.0f;
     private float _elapsedTimeCoolingDownShot = 0.0f;
     private WeaponState _weaponState = WeaponState.ReadyToFire;
@@ -61,7 +62,7 @@ public class Revolver : MonoBehaviour, IWeapon
             currentDamageable = hit.transform.gameObject.GetComponent<IDamageable>();
             hitPos = hit.point;
 
-            currentDamageable?.TakeDamage(10);
+            currentDamageable?.TakeDamage(_shotDamage);
 
             _currentAmmo--;
         }
