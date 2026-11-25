@@ -16,8 +16,10 @@ public class FearManager : MonoBehaviour
     [SerializeField] private float _fearAccuracyModifier = 2.0f;
 
 
-    [Header("Recoil variables")]
-    [SerializeField] private float _recoilUpTime, _recoilDownTime;
+    [Header("Revolver variables")]
+    [SerializeField] private float _recoilUpTime;
+    [SerializeField] private float _recoilDownTime;
+    [SerializeField] private float _reloadIncreaseMultiplier;
     private float _recoilTime;
     private Vector3 _recoilOffset, _currentRecoilOffset, _zeroRecoilOffset;
     private bool _recoilUp;
@@ -31,6 +33,7 @@ public class FearManager : MonoBehaviour
     private Vector3 _accuracyOffset;
     private Vector3 _center;
     private Vector3 _next, _prev;
+
 
 
 
@@ -131,6 +134,11 @@ public class FearManager : MonoBehaviour
         // offset = random direction with length of fear modifier
         
         return _crosshair;
+    }
+
+    public float RevolverReloadOffset()
+    {
+        return _fearLevel * _reloadIncreaseMultiplier;
     }
 
     // To be used in a update method where smaller amounts of fear are applied in a constant manner over time

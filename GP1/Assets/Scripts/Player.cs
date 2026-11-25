@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable
 {
     [SerializeField] private int _health;
     [SerializeField] private int _maxHealth;
@@ -52,6 +52,8 @@ public class Player : MonoBehaviour
         _flashlight.UpdateFlashlight();
     }
 
+
+
     public void AddBattery()
     {
         _flashlight.AddBattery();
@@ -69,7 +71,7 @@ public class Player : MonoBehaviour
             _health = _maxHealth;
     }
 
-    public void RemoveHealth(int damage_taken)
+    public void TakeDamage(int damage_taken)
     {
         _health -= damage_taken;
         /*

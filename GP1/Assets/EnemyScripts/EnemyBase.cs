@@ -10,7 +10,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
     [SerializeField] protected Transform player_transform_reference;
     [SerializeField] protected float movement_speed;
     [SerializeField] private int health;
-    [SerializeField] private int attack_damage;
+    [SerializeField] protected int attack_damage;
     [SerializeField] private float inflict_fear;
 
     protected enum enemy_states
@@ -23,7 +23,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
     protected enemy_states current_state = enemy_states.idle_state;
 
-    public void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage)
     {
         health -= damage;
         // Pierre: test line added just to make sure enemy is hit by raycast from weapon

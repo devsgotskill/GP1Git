@@ -8,16 +8,17 @@ public class ShamblerEnemy : EnemyBase
 {
     [SerializeField] private DetectionVolume player_detection_volume;
     [SerializeField] protected DetectionVolume in_range_to_attack_volume;
-    [SerializeField] private DetectionVolume hurt_box;
     [SerializeField] protected EnemyHitBox hit_box;
     [SerializeField] public float chase_time = 5;
     [SerializeField] public float attack_time = 2;
     [SerializeField] public float hurt_time = 1;
+
     protected float countdown_timer;
 
     private void Awake()
     {
         hit_box.enabled = false;
+        hit_box.GetComponent<EnemyHitBox>().Initialise(attack_damage);
     }
 
     public void IdleBehavior()
@@ -27,12 +28,6 @@ public class ShamblerEnemy : EnemyBase
             agent_reference.isStopped = false;
             countdown_timer = chase_time;
             current_state = enemy_states.chase_state;
-        }
-
-        if (hurt_box.is_detecting) // switch to hurt
-        {
-            countdown_timer = hurt_time;
-            current_state = enemy_states.hurt_state;
         }
 
         if (in_range_to_attack_volume.is_detecting)
@@ -65,12 +60,6 @@ public class ShamblerEnemy : EnemyBase
             agent_reference.destination = in_range_to_attack_volume.point_of_collision;
             current_state = enemy_states.attack_state;
         }
-
-        if (hurt_box.is_detecting) // switch to hurt
-        {
-            countdown_timer = hurt_time;
-            current_state = enemy_states.hurt_state;
-        }
     }
 
     public void AttackBehavior()
@@ -87,13 +76,19 @@ public class ShamblerEnemy : EnemyBase
         }
     }
 
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+        Debug.Log("YEOWCH!");
+        countdown_timer = hurt_time;
+        current_state = enemy_states.hurt_state;
+    }
+
     public void HurtBehavior() // need to figure out weird behavior with movement during this state but otherwise we kosher
     {
-        agent_reference.destination = -hurt_box.point_of_collision;
         countdown_timer -= Time.deltaTime;
         if (countdown_timer <= 0)
         {
-            hurt_box.is_detecting = false;
             countdown_timer = chase_time;
             current_state = enemy_states.chase_state;
         }
