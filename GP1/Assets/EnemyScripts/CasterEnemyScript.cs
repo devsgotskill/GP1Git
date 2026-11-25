@@ -42,4 +42,6 @@ public class CasterEnemy : ShamblerEnemy
             current_state = enemy_states.chase_state;
         }
     }
+
+
 }
