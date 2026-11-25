@@ -242,6 +242,7 @@ MonoBehaviour:
   _fearAccuracyModifier: 25
   _recoilUpTime: 0.025
   _recoilDownTime: 0.5
+  _reloadIncreaseMultiplier: 0.5
   _randomOffsetFloat: 0
   _offsetDirectionCooldown: 0.25
 --- !u!4 &902308568

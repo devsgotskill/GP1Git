@@ -100,9 +100,10 @@ public class Revolver : MonoBehaviour, IWeapon
                 return;
             }
             _elapsedTimeReloading += Time.deltaTime;
-            if (_elapsedTimeReloading > _timeToReloadBullet && _currentAmmo < 6)
+            if (_elapsedTimeReloading > _timeToReloadBullet + FearManager.Instance.RevolverReloadOffset() 
+                && _currentAmmo < 6)
             {
-                _elapsedTimeReloading -= _timeToReloadBullet;
+                _elapsedTimeReloading = 0.0f;
                 _currentAmmo++;
                 _extraAmmo--;
             }
