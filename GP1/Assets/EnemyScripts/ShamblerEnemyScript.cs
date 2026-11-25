@@ -13,11 +13,13 @@ public class ShamblerEnemy : EnemyBase
     [SerializeField] public float chase_time = 5;
     [SerializeField] public float attack_time = 2;
     [SerializeField] public float hurt_time = 1;
+
     protected float countdown_timer;
 
     private void Awake()
     {
         hit_box.enabled = false;
+        hit_box.GetComponent<EnemyHitBox>().Initialise(attack_damage);
     }
 
     public void IdleBehavior()

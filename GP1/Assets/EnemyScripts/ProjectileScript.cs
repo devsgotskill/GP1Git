@@ -6,6 +6,7 @@ public class ProjectileScript : MonoBehaviour
 {
     [SerializeField] public float lifespan = 10;
     [SerializeField] public float travel_speed = 10;
+    [SerializeField] public float fear_damage = 0.5f;
     public Vector3 destination_coords;
     private Vector3 movement_vector;
 
@@ -28,7 +29,8 @@ public class ProjectileScript : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            // Insert logic here to administer damage
+            // Added by the unimpeachable, god lord of programming, Pierre FREDERICK Martin
+            FearManager.Instance.IncreaseFearByAmount(fear_damage);
         }
         Destroy(gameObject);
     }

@@ -14,7 +14,7 @@ public class DeathPit : MonoBehaviour
         
         if (other.gameObject.layer == 6)
         {
-            other.GetComponent<Player>().RemoveHealth(damage_taken);
+            other.GetComponent<Player>().TakeDamage(damage_taken);
             cc.enabled = false;
             player_trans.transform.position = reapwan_area.transform.position;
             cc.enabled = true;

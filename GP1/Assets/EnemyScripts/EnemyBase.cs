@@ -10,7 +10,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
     [SerializeField] protected Transform player_transform_reference;
     [SerializeField] protected float movement_speed;
     [SerializeField] private int health;
-    [SerializeField] private int attack_damage;
+    [SerializeField] protected int attack_damage;
     [SerializeField] private float inflict_fear;
 
     protected enum enemy_states
