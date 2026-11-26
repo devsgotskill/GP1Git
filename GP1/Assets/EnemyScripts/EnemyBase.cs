@@ -28,7 +28,6 @@ public class EnemyBase : MonoBehaviour, IDamageable
         health -= damage;
         // Pierre: test line added just to make sure enemy is hit by raycast from weapon
         Debug.Log("YEOWCH");
-        Debug.Log(health);
     }
 
     public void OrientTowardsPlayer()
@@ -42,6 +41,8 @@ public class EnemyBase : MonoBehaviour, IDamageable
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 1);
         }
     }
+
+    // Add a detect knockback function that log's the player's position at the time of attack and applies that to the enemy...perchance
 
     public void CheckDeath()
     {
