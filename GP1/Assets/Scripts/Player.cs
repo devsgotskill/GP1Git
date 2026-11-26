@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour, IDamageable
 {
@@ -48,6 +49,11 @@ public class Player : MonoBehaviour, IDamageable
             Debug.Log("SHOTS FIRED SHOTS FIRED");
         }
 
+        if (_health <= 0)
+        {
+            SceneManager.LoadScene("Scenes/Menu");
+        }
+
         _revolver.UpdateRevolver();
         _flashlight.UpdateFlashlight();
     }
@@ -61,7 +67,7 @@ public class Player : MonoBehaviour, IDamageable
 
     public void AddAmmo()
     {
-        
+        _revolver.AddAmmo();
     }
 
     public void AddHealth(int healthAmount = 50)
