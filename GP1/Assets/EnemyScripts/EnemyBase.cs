@@ -27,7 +27,8 @@ public class EnemyBase : MonoBehaviour, IDamageable
     {
         health -= damage;
         // Pierre: test line added just to make sure enemy is hit by raycast from weapon
-        Debug.Log("Enemy damaged");
+        Debug.Log("YEOWCH");
+        Debug.Log(health);
     }
 
     public void OrientTowardsPlayer()

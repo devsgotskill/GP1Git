@@ -27,6 +27,7 @@ public class CasterEnemy : ShamblerEnemy
                 HurtBehavior();
                 break;
         }
+        CheckDeath();
     }
 
     public new void AttackBehavior()

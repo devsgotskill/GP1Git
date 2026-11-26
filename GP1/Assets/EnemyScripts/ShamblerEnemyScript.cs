@@ -57,7 +57,7 @@ public class ShamblerEnemy : EnemyBase
         if (in_range_to_attack_volume.is_detecting) // switch to attack
         {
             countdown_timer = attack_time;
-            agent_reference.destination = in_range_to_attack_volume.point_of_collision;
+            agent_reference.destination = in_range_to_attack_volume.point_of_collision; // Gotta figure this out to have the thing actually move in a single line
             current_state = enemy_states.attack_state;
         }
     }
@@ -79,7 +79,6 @@ public class ShamblerEnemy : EnemyBase
     public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);
-        Debug.Log("YEOWCH!");
         countdown_timer = hurt_time;
         current_state = enemy_states.hurt_state;
     }

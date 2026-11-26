@@ -906,7 +906,7 @@ MonoBehaviour:
   _maxExtraAmmo: 24
   _timeToReloadBullet: 1
   _shotCooldownLength: 1.2
-  _shotDamage: 10
+  _shotDamage: 5
 --- !u!1 &806490944
 GameObject:
   m_ObjectHideFlags: 0
@@ -1005,6 +1005,7 @@ MonoBehaviour:
   _fearAccuracyModifier: 25
   _recoilUpTime: 0.025
   _recoilDownTime: 0.5
+  _reloadIncreaseMultiplier: 0
   _randomOffsetFloat: 0
   _offsetDirectionCooldown: 0.25
 --- !u!4 &943323657
@@ -1214,6 +1215,67 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1655293374}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1277796244
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8856345603560785, guid: 8f0696c88adb4e540a5ddc41a244b20c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -10.986182
+      objectReference: {fileID: 0}
+    - target: {fileID: 8856345603560785, guid: 8f0696c88adb4e540a5ddc41a244b20c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.0000012
+      objectReference: {fileID: 0}
+    - target: {fileID: 8856345603560785, guid: 8f0696c88adb4e540a5ddc41a244b20c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -16.783087
+      objectReference: {fileID: 0}
+    - target: {fileID: 8856345603560785, guid: 8f0696c88adb4e540a5ddc41a244b20c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8856345603560785, guid: 8f0696c88adb4e540a5ddc41a244b20c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8856345603560785, guid: 8f0696c88adb4e540a5ddc41a244b20c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8856345603560785, guid: 8f0696c88adb4e540a5ddc41a244b20c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8856345603560785, guid: 8f0696c88adb4e540a5ddc41a244b20c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8856345603560785, guid: 8f0696c88adb4e540a5ddc41a244b20c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8856345603560785, guid: 8f0696c88adb4e540a5ddc41a244b20c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1642873329169719966, guid: 8f0696c88adb4e540a5ddc41a244b20c, type: 3}
+      propertyPath: m_Name
+      value: Shambler Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 4608909390445429237, guid: 8f0696c88adb4e540a5ddc41a244b20c, type: 3}
+      propertyPath: player_transform_reference
+      value: 
+      objectReference: {fileID: 192678911}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8f0696c88adb4e540a5ddc41a244b20c, type: 3}
 --- !u!1 &1336577808
 GameObject:
   m_ObjectHideFlags: 0
@@ -1685,3 +1747,4 @@ SceneRoots:
   - {fileID: 1655293374}
   - {fileID: 943323657}
   - {fileID: 1801990491}
+  - {fileID: 1277796244}
