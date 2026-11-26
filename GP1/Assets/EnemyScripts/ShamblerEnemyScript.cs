@@ -31,7 +31,7 @@ public class ShamblerEnemy : EnemyBase
             current_state = enemy_states.chase_state;
         }
 
-        if (in_range_to_attack_volume.is_detecting)
+        if (in_range_to_attack_volume.is_detecting) // switch to attack
         {
             countdown_timer = attack_time;
             Debug.Log("Entering Attack State");
@@ -59,7 +59,6 @@ public class ShamblerEnemy : EnemyBase
         if (in_range_to_attack_volume.is_detecting) // switch to attack
         {
             countdown_timer = attack_time;
-            agent_reference.destination = in_range_to_attack_volume.point_of_collision;
             Debug.Log("Entering Attack State");
             current_state = enemy_states.attack_state;
         }
@@ -67,6 +66,7 @@ public class ShamblerEnemy : EnemyBase
 
     public void AttackBehavior()
     { // perchance add a way to speed up the enemy while its attacking needs to get added
+        agent_reference.destination = in_range_to_attack_volume.point_of_collision;
         countdown_timer -= Time.deltaTime;
         hit_box.enabled = true;
 
@@ -84,7 +84,7 @@ public class ShamblerEnemy : EnemyBase
     {
         agent_reference.isStopped = true;
         countdown_timer -= Time.deltaTime;
-        if (countdown_timer <= 0)
+        if (countdown_timer <= 0) // switch to chase
         {
             agent_reference.isStopped = false;
             countdown_timer = chase_time;

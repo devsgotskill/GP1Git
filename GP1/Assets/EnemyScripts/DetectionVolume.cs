@@ -7,7 +7,7 @@ public class DetectionVolume : MonoBehaviour
     public bool is_detecting = false;
     public Vector3 point_of_collision;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag(tag_to_detect))
         {
