@@ -27,12 +27,14 @@ public class ShamblerEnemy : EnemyBase
         {
             agent_reference.isStopped = false;
             countdown_timer = chase_time;
+            Debug.Log("Entering Chase State");
             current_state = enemy_states.chase_state;
         }
 
         if (in_range_to_attack_volume.is_detecting)
         {
             countdown_timer = attack_time;
+            Debug.Log("Entering Attack State");
             current_state = enemy_states.attack_state;
         }
     }
@@ -40,7 +42,6 @@ public class ShamblerEnemy : EnemyBase
     public void ChaseBehavior()
     {
         OrientTowardsPlayer();
-
         agent_reference.destination = player_transform_reference.position;
         agent_reference.speed = movement_speed;
 
@@ -51,19 +52,21 @@ public class ShamblerEnemy : EnemyBase
             agent_reference.isStopped = true;
             player_detection_volume.is_detecting = false;
             countdown_timer = chase_time;
+            Debug.Log("Entering Idle State");
             current_state = enemy_states.idle_state;
         }
 
         if (in_range_to_attack_volume.is_detecting) // switch to attack
         {
             countdown_timer = attack_time;
-            agent_reference.destination = in_range_to_attack_volume.point_of_collision; // Gotta figure this out to have the thing actually move in a single line
+            agent_reference.destination = in_range_to_attack_volume.point_of_collision;
+            Debug.Log("Entering Attack State");
             current_state = enemy_states.attack_state;
         }
     }
 
     public void AttackBehavior()
-    {
+    { // perchance add a way to speed up the enemy while its attacking needs to get added
         countdown_timer -= Time.deltaTime;
         hit_box.enabled = true;
 
@@ -72,25 +75,38 @@ public class ShamblerEnemy : EnemyBase
             in_range_to_attack_volume.is_detecting = false;
             hit_box.enabled = false;
             countdown_timer = chase_time;
+            Debug.Log("Entering Chase State");
+            current_state = enemy_states.chase_state;
+        }
+    }
+
+    public void HurtBehavior()
+    {
+        agent_reference.isStopped = true;
+        countdown_timer -= Time.deltaTime;
+        if (countdown_timer <= 0)
+        {
+            agent_reference.isStopped = false;
+            countdown_timer = chase_time;
+            Debug.Log("Entering Chase State");
             current_state = enemy_states.chase_state;
         }
     }
 
     public override void TakeDamage(int damage)
     {
-        base.TakeDamage(damage);
-        countdown_timer = hurt_time;
-        current_state = enemy_states.hurt_state;
-    }
-
-    public void HurtBehavior() // need to figure out weird behavior with movement during this state but otherwise we kosher
-    {
-        countdown_timer -= Time.deltaTime;
-        if (countdown_timer <= 0)
-        {
-            countdown_timer = chase_time;
-            current_state = enemy_states.chase_state;
+        if (current_state != enemy_states.hurt_state)
+        { // ensures that you can't spam fire to kill the enemy while it's already being hurt
+            base.TakeDamage(damage);
         }
+
+        if (current_state == enemy_states.chase_state || current_state == enemy_states.idle_state)
+        { // sets us into the hurt state (shit like animation or whatever) if it makes sense
+            countdown_timer = hurt_time;
+            Debug.Log("Entering Hurt State");
+            current_state = enemy_states.hurt_state;
+        }
+        
     }
 
     private void Update()
