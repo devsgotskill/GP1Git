@@ -254,7 +254,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 639536a38cfd9b741851c5f03ff96cbb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -719,6 +719,8 @@ MonoBehaviour:
   horizontalTilt: 5
   verticalTilt: 3
   tiltSmoothness: 5
+  recoilCameraMultiplier: 0.4
+  recoilCameraSmoothness: 13
 --- !u!114 &847161218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1540,6 +1542,7 @@ MonoBehaviour:
   _fearAccuracyModifier: 25
   _recoilUpTime: 0.025
   _recoilDownTime: 0.5
+  _reloadIncreaseMultiplier: 0
   _randomOffsetFloat: 0
   _offsetDirectionCooldown: 0.25
 --- !u!4 &1519815347
@@ -1750,13 +1753,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestEnemy
   agent_reference: {fileID: 1677154506}
+  player_transform_reference: {fileID: 847161225}
   movement_speed: 10
-  max_health: 10
-  current_health: 0
+  health: 0
   attack_damage: 2
   inflict_fear: 0
-  player_transform_reference: {fileID: 847161225}
-  player_detector: {fileID: 0}
+  player_detection_volume: {fileID: 0}
+  in_range_to_attack_volume: {fileID: 0}
+  hit_box: {fileID: 0}
+  chase_time: 5
+  attack_time: 2
+  hurt_time: 1
 --- !u!195 &1677154506
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2045,6 +2052,7 @@ MonoBehaviour:
   _maxExtraAmmo: 24
   _timeToReloadBullet: 1
   _shotCooldownLength: 1.2
+  _shotDamage: 10
 --- !u!136 &1894335830
 CapsuleCollider:
   m_ObjectHideFlags: 0

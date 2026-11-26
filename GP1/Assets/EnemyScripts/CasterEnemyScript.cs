@@ -40,6 +40,7 @@ public class CasterEnemy : ShamblerEnemy
             new_projectile.GetComponent<ProjectileScript>().destination_coords = player_transform_reference.position;
             in_range_to_attack_volume.is_detecting = false;
             countdown_timer = chase_time;
+            Debug.Log("Entering Chase Time");
             current_state = enemy_states.chase_state;
         }
     }
