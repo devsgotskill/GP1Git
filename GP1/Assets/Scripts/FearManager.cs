@@ -34,7 +34,9 @@ public class FearManager : MonoBehaviour
     private Vector3 _center;
     private Vector3 _next, _prev;
 
-
+    // I need this to test how the recoil would look like without fear increesing. So it dosnt interfere with how the recoil looks like when fear is at 0!.
+    [Header("devs Testing Grounds!")]
+    [SerializeField] private bool enableNaturalFear = true;
 
 
     public void Start()
@@ -144,15 +146,17 @@ public class FearManager : MonoBehaviour
     // To be used in a update method where smaller amounts of fear are applied in a constant manner over time
     public void IncreaseFearOverTime(float multiplier)
     {
-        if (_fearLevel  < 1.0f) 
-            _fearLevel += 0.01f * Time.deltaTime * multiplier;
+        if (!enableNaturalFear) return;
+
+        _fearLevel = Mathf.Clamp01(_fearLevel + 0.01f * Time.deltaTime * multiplier);
     }
 
     // To be used in a update method where smaller amounts of fear are removed in a constant manner over time
     public void DecreaseFearOverTime(float multiplier)
     {
-        if (_fearLevel > 0.0f) 
-            _fearLevel -= 0.01f * Time.deltaTime * multiplier;
+        if (!enableNaturalFear) return;
+
+        _fearLevel = Mathf.Clamp01(_fearLevel - 0.01f * Time.deltaTime * multiplier);
     }
 
     // Used when a single amount of fear is added from an action that causes an instant amount of fear

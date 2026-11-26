@@ -5,6 +5,7 @@ public class Look : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Transform cameraTransform;
+    [SerializeField] private PlayerMovement playerMovement;
 
     [Header("Mouse Settings")]
     [SerializeField] private float mouseSensitivity;
@@ -36,6 +37,7 @@ public class Look : MonoBehaviour
 
     [Header("Camera Recoil")]
     [SerializeField] private float recoilCameraMultiplier = 0.4f;
+    [SerializeField] private float maxRecoilCameraMultiplier = 0.5f;
     [SerializeField] private float recoilCameraSmoothness = 13f;
 
     private PlayerInputActions inputActions;
@@ -85,8 +87,12 @@ public class Look : MonoBehaviour
 
         Quaternion tiltRotation = Quaternion.Euler(currentTiltX, 0f, currentTiltZ);
 
+        float fear = FearManager.Instance.GetFearAmount();
+
+        float currentRecoilMultiplier = Mathf.Lerp(recoilCameraMultiplier, maxRecoilCameraMultiplier, fear);
+
         float recoilOffset = FearManager.Instance.GetCurrentRecoilOffset().y;
-        float targetRecoil = -recoilOffset * recoilCameraMultiplier;
+        float targetRecoil = -recoilOffset * currentRecoilMultiplier;
 
         currentCameraRecoil = Mathf.Lerp(currentCameraRecoil, targetRecoil, Time.deltaTime * recoilCameraSmoothness);
 
@@ -95,14 +101,13 @@ public class Look : MonoBehaviour
         if (enableHeadBob && cameraTransform != null)
         {
             bool isMoving = moveInput.magnitude > 0.1f;
-            bool isSprinting = isMoving && inputActions.Player.Sprint.IsPressed();
+            bool isCrouching = playerMovement != null && playerMovement.IsCrouching;
+            bool isSprinting = isMoving && !isCrouching && inputActions.Player.Sprint.IsPressed();
 
             Vector3 targetPos = cameraDefaultLocalPos;
 
             if (!isMoving)
             {
-                float fear = FearManager.Instance.GetFearAmount();
-
                 float currentAmplitude = Mathf.Lerp(0.05f, maxBreathAmplitude, fear);
                 float currentFrequency = Mathf.Lerp(1.5f, maxBreathFrequency, fear);
 

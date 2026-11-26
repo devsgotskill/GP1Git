@@ -24,6 +24,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement Acceleration")]
     [SerializeField] private float acceleration = 9f;
     [SerializeField] private float deceleration = 14f;
+
+    public bool IsCrouching => isCrouching;
+
     private Vector3 currentMoveVelocity;
     private CharacterController controller;
     private PlayerInputActions inputActions;
@@ -45,26 +48,32 @@ public class PlayerMovement : MonoBehaviour
         inputActions = new PlayerInputActions();
         standingHeight = controller.height;
         standingCenter = controller.center;
+
         if (cameraTransform != null)
         {
             cameraDefaultPosition = cameraTransform.localPosition;
         }
     }
+
     private void OnEnable()
     {
         inputActions.Player.Enable();
     }
+
     private void OnDisable()
     {
         inputActions.Player.Disable();
     }
+
     private void Update()
     {
         isGrounded = controller.isGrounded;
+
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
         }
+
         if (inputActions.Player.Crouch.WasPressedThisFrame())
         {
             isCrouching = !isCrouching;
@@ -84,14 +93,19 @@ public class PlayerMovement : MonoBehaviour
         if (cameraTransform != null)
         {
             Vector3 targetCameraPosition = cameraDefaultPosition;
+
             if (isCrouching)
             {
                 targetCameraPosition.y -= crouchCameraOffset;
             }
+
             cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, targetCameraPosition, Time.deltaTime * crouchSmoothness);
         }
-        bool isSprinting = inputActions.Player.Sprint.IsPressed();
+
+        bool isSprinting = !isCrouching && inputActions.Player.Sprint.IsPressed();
+
         float currentSpeed;
+
         if (isCrouching)
         {
             currentSpeed = crouchSpeed;
@@ -104,12 +118,16 @@ public class PlayerMovement : MonoBehaviour
         {
             currentSpeed = walkSpeed;
         }
+
         Vector2 moveInput = inputActions.Player.Move.ReadValue<Vector2>();
 
         Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.y;
         move = Vector3.ClampMagnitude(move, 1f);
+
         Vector3 targetVelocity = move * currentSpeed;
+
         float currentAcceleration;
+
         if (moveInput.magnitude > 0.1f)
         {
             currentAcceleration = acceleration;
@@ -118,8 +136,11 @@ public class PlayerMovement : MonoBehaviour
         {
             currentAcceleration = deceleration;
         }
+
         currentMoveVelocity = Vector3.MoveTowards(currentMoveVelocity, targetVelocity, currentAcceleration * Time.deltaTime);
+
         controller.Move(currentMoveVelocity * Time.deltaTime);
+
         if (isGrounded)
         {
             coyoteTimeCounter = coyoteTime;
@@ -128,6 +149,7 @@ public class PlayerMovement : MonoBehaviour
         {
             coyoteTimeCounter -= Time.deltaTime;
         }
+
         if (inputActions.Player.Jump.WasPressedThisFrame())
         {
             jumpBufferCounter = jumpBufferTime;
@@ -136,12 +158,14 @@ public class PlayerMovement : MonoBehaviour
         {
             jumpBufferCounter -= Time.deltaTime;
         }
+
         if (!isCrouching && coyoteTimeCounter > 0f && jumpBufferCounter > 0f)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             coyoteTimeCounter = 0f;
             jumpBufferCounter = 0f;
         }
+
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
     }

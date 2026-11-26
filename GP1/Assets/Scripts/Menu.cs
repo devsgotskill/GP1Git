@@ -1,10 +1,11 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
     public void StartButton()
     {
-        // Switch to scene that starts the game
+        SceneManager.LoadScene("Scenes/TestLevelOne");
     }
     public void SettingsButton()
     {

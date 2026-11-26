@@ -9,11 +9,9 @@ public class EndLevelTrigger : Door
 
     private void OnTriggerEnter(Collider other)
     {
-        Vector3 move_pos_down = new Vector3(door.transform.position.x, new_pos, door.transform.position.z);
-
         if (other.gameObject.layer == 6)
         {
-            MoveDoor(new_pos);   
+            MoveDoor();   
         }
     }
 
