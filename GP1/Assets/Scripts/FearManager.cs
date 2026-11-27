@@ -16,8 +16,10 @@ public class FearManager : MonoBehaviour
     [SerializeField] private float _fearAccuracyModifier = 2.0f;
 
 
-    [Header("Recoil variables")]
-    [SerializeField] private float _recoilUpTime, _recoilDownTime;
+    [Header("Revolver variables")]
+    [SerializeField] private float _recoilUpTime;
+    [SerializeField] private float _recoilDownTime;
+    [SerializeField] private float _reloadIncreaseMultiplier;
     private float _recoilTime;
     private Vector3 _recoilOffset, _currentRecoilOffset, _zeroRecoilOffset;
     private bool _recoilUp;
@@ -32,6 +34,9 @@ public class FearManager : MonoBehaviour
     private Vector3 _center;
     private Vector3 _next, _prev;
 
+    // I need this to test how the recoil would look like without fear increesing. So it dosnt interfere with how the recoil looks like when fear is at 0!.
+    [Header("devs Testing Grounds!")]
+    [SerializeField] private bool enableNaturalFear = true;
 
 
     public void Start()
@@ -133,18 +138,25 @@ public class FearManager : MonoBehaviour
         return _crosshair;
     }
 
+    public float RevolverReloadOffset()
+    {
+        return _fearLevel * _reloadIncreaseMultiplier;
+    }
+
     // To be used in a update method where smaller amounts of fear are applied in a constant manner over time
     public void IncreaseFearOverTime(float multiplier)
     {
-        if (_fearLevel  < 1.0f) 
-            _fearLevel += 0.01f * Time.deltaTime * multiplier;
+        if (!enableNaturalFear) return;
+
+        _fearLevel = Mathf.Clamp01(_fearLevel + 0.01f * Time.deltaTime * multiplier);
     }
 
     // To be used in a update method where smaller amounts of fear are removed in a constant manner over time
     public void DecreaseFearOverTime(float multiplier)
     {
-        if (_fearLevel > 0.0f) 
-            _fearLevel -= 0.01f * Time.deltaTime * multiplier;
+        if (!enableNaturalFear) return;
+
+        _fearLevel = Mathf.Clamp01(_fearLevel - 0.01f * Time.deltaTime * multiplier);
     }
 
     // Used when a single amount of fear is added from an action that causes an instant amount of fear

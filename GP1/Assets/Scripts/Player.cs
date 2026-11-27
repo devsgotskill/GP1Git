@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable
 {
     [SerializeField] private int _health;
     [SerializeField] private int _maxHealth;
@@ -48,9 +49,16 @@ public class Player : MonoBehaviour
             Debug.Log("SHOTS FIRED SHOTS FIRED");
         }
 
+        if (_health <= 0)
+        {
+            SceneManager.LoadScene("Scenes/Menu");
+        }
+
         _revolver.UpdateRevolver();
         _flashlight.UpdateFlashlight();
     }
+
+
 
     public void AddBattery()
     {
@@ -59,7 +67,7 @@ public class Player : MonoBehaviour
 
     public void AddAmmo()
     {
-        
+        _revolver.AddAmmo();
     }
 
     public void AddHealth(int healthAmount = 50)
@@ -67,6 +75,14 @@ public class Player : MonoBehaviour
         _health += healthAmount;
         if (_health > _maxHealth)
             _health = _maxHealth;
+    }
+
+    public void TakeDamage(int damage_taken)
+    {
+        _health -= damage_taken;
+        /*
+         * if (_health <= 0) { Scenemanger.LoadScene("Menu"); }
+         */
     }
 
     public string CurrentAmmunition()
