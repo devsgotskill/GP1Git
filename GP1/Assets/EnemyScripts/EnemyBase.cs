@@ -19,15 +19,16 @@ public class EnemyBase : MonoBehaviour, IDamageable
         chase_state = 1,
         attack_state = 2,
         hurt_state = 3,
+        wander_state = 4,
     }
 
     protected enemy_states current_state = enemy_states.idle_state;
+    protected float countdown_timer;
 
     public virtual void TakeDamage(int damage)
     {
         health -= damage;
-        // Pierre: test line added just to make sure enemy is hit by raycast from weapon
-        Debug.Log("YEOWCH");
+        Debug.Log("YEOWCH"); // Pierre: test line added just to make sure enemy is hit by raycast from weapon
     }
 
     public void OrientTowardsPlayer()

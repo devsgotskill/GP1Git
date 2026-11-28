@@ -9,11 +9,11 @@ public class ShamblerEnemy : EnemyBase
     [SerializeField] private DetectionVolume player_detection_volume;
     [SerializeField] protected DetectionVolume in_range_to_attack_volume;
     [SerializeField] protected EnemyHitBox hit_box;
-    [SerializeField] public float chase_time = 5;
-    [SerializeField] public float attack_time = 2;
-    [SerializeField] public float hurt_time = 1;
+    [SerializeField] protected float chase_time = 5;
+    [SerializeField] protected float attack_time = 2;
+    [SerializeField] protected float hurt_time = 1;
 
-    protected float countdown_timer;
+    
 
     private void Awake()
     {
